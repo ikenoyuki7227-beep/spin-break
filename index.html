@@ -1,6 +1,6 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#081122"><title>SPIN BREAKERS | 3D ARENA</title><style>
-:root{color-scheme:dark;--cyan:#41dcff;--bg:#07101f;--panel:#101d32;--gold:#ffd278}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -10%,#17345b,#070c18 68%);color:#ecf7ff;font-family:system-ui,-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;padding-bottom:30px}header{text-align:center;padding:20px 12px 12px}header h1{font-size:clamp(24px,7vw,36px);letter-spacing:2px;font-style:italic;margin:0;color:#f2fcff;text-shadow:0 0 20px #20cfff8a}header small{color:#7bb6d1;letter-spacing:3px}.wrap{max-width:760px;margin:auto;padding:0 12px}.topbar{display:flex;justify-content:space-between;gap:8px;align-items:center;margin:10px 0}.chip{background:#112641;border:1px solid #34516e;border-radius:12px;padding:9px 13px;font-weight:900}.coin{color:var(--gold)}.panel{background:linear-gradient(150deg,#13243c,#0b1425);border:1px solid #26425d;border-radius:18px;padding:14px;margin:12px 0;box-shadow:0 10px 30px #0005}h2{font-size:17px;margin:4px 0 12px}p{line-height:1.6}.muted{color:#9db4cc;font-size:12px}.stages{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.stage{border:1px solid #355374;border-radius:12px;background:#0b1a2e;color:#d4e7ff;min-height:61px;font-size:19px;font-weight:900;cursor:pointer}.stage small{display:block;font-size:10px;color:#88a4c2}.stage.sel{border:2px solid #40e6ff;background:#153d59;box-shadow:0 0 14px #19ccff55}.stage.win{color:#ffdb7a}.stage:disabled{opacity:.5}.arena{position:relative;aspect-ratio:1.22;max-height:520px;overflow:hidden;border:2px solid #24688a;border-radius:17px;background:#050c18;box-shadow:inset 0 0 35px #00aaff3b,0 0 18px #0087ff29}canvas{display:block;width:100%;height:100%}.arena-label{position:absolute;top:10px;left:12px;font-size:11px;letter-spacing:2px;font-weight:900;color:#92eaff;text-shadow:0 0 10px #17b8ff;pointer-events:none}.hud{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.hud .right{text-align:right}.hpbar{height:12px;border-radius:10px;overflow:hidden;background:#06101e;border:1px solid #35506a;margin:5px 0}.hpfill{height:100%;width:100%;background:linear-gradient(90deg,#03a6d7,#64ffb9);transition:width .15s}.right .hpfill{background:linear-gradient(90deg,#f84a4a,#ffb05d)}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}button{font-family:inherit}button.primary,button.secondary,button.buy{border:1px solid #329dc5;background:linear-gradient(130deg,#0876a5,#163e70);color:white;padding:13px 9px;border-radius:11px;font-weight:900;font-size:14px;cursor:pointer}button.primary{background:linear-gradient(130deg,#00a9d4,#1358a4);font-size:16px}button.secondary{background:linear-gradient(130deg,#692049,#b13b27);border-color:#d65b58}button:disabled{opacity:.4;cursor:not-allowed}.status{text-align:center;min-height:44px;color:#d4e6fb;font-size:13px;font-weight:700}.statrow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border-top:1px solid #243c55;padding:12px 0}.statrow:first-of-type{border-top:0}.statrow strong{font-size:15px}.statrow .muted{margin-top:3px}.buy{min-width:114px;font-size:12px!important;padding:10px 8px!important}.skillgrid{display:grid;grid-template-columns:1fr;gap:9px}.skillitem{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;background:#09182c;border:1px solid #29425e;border-radius:12px;padding:12px}.skillitem strong{color:#ffe19d}.skillitem p{margin:4px 0 0;font-size:12px;color:#b1c5da}.skillitem .buy{border-color:#bd8a44;background:linear-gradient(120deg,#644018,#9b6324)}.footer{text-align:center;color:#6f8da9;font-size:11px;padding:8px}#reset{font-size:11px;background:transparent;color:#7691ac;border:0;text-decoration:underline;cursor:pointer}.pulse{animation:pulse .55s ease}@keyframes pulse{50%{filter:brightness(2)}}@media(min-width:640px){.skillgrid{grid-template-columns:1fr 1fr}.arena{aspect-ratio:1.5}}
-</style></head><body><header><h1>⚡ SPIN BREAKERS</h1><small>3D SPIN BATTLE</small></header><main class="wrap"><div class="topbar"><div class="chip" id="levelText">🏆 クリア 0 / 10</div><div class="chip coin" id="coinsText">🪙 0 COINS</div></div><section class="panel"><h2>🎯 ステージを選択</h2><div class="stages" id="stages"></div><p class="muted" id="stageInfo"></p></section><section class="panel"><div class="arena"><canvas id="canvas"></canvas><div class="arena-label">◈ HOLOGRAPHIC ARENA</div></div><div class="hud"><div><b>🔵 PLAYER</b><div class="hpbar"><div class="hpfill" id="playerBar"></div></div><small id="playerHp">HP --</small></div><div class="right"><b id="enemyName">🔴 RIVAL</b><div class="hpbar"><div class="hpfill" id="enemyBar"></div></div><small id="enemyHp">HP --</small></div></div><div class="status" id="status">ステージを選んでバトル開始！</div><div class="actions"><button class="primary" id="start">⚡ バトル開始</button><button class="secondary" id="special" disabled>🔥 必殺技</button></div><p class="muted">バトルは自動進行。必殺技はバトル中に1回だけ発動可能。勝利でコイン獲得、敗北でも約半分獲得できます。</p></section><section class="panel"><h2>⬆️ ステータス強化</h2><p class="muted">パーツ交換は廃止。コインを使って能力を直接レベルアップ！</p><div id="upgrades"></div></section><section class="panel"><h2>🔥 必殺技ショップ</h2><div class="skillgrid" id="skills"></div><p class="muted">必殺技は購入した最高倍率が使えます。1バトルにつき1回、次の衝突攻撃が強化されます。</p></section><div class="footer"><button id="reset">セーブデータを最初からやり直す</button><p>進行状況はこのブラウザに自動保存されます</p></div></main><script>
+:root{color-scheme:dark;--cyan:#41dcff;--bg:#07101f;--panel:#101d32;--gold:#ffd278}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -10%,#17345b,#070c18 68%);color:#ecf7ff;font-family:system-ui,-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;padding-bottom:30px}header{text-align:center;padding:20px 12px 12px}header h1{font-size:clamp(24px,7vw,36px);letter-spacing:2px;font-style:italic;margin:0;color:#f2fcff;text-shadow:0 0 20px #20cfff8a}header small{color:#7bb6d1;letter-spacing:3px}.wrap{max-width:760px;margin:auto;padding:0 12px}.topbar{display:flex;justify-content:space-between;gap:8px;align-items:center;margin:10px 0}.chip{background:#112641;border:1px solid #34516e;border-radius:12px;padding:9px 13px;font-weight:900}.coin{color:var(--gold)}.panel{background:linear-gradient(150deg,#13243c,#0b1425);border:1px solid #26425d;border-radius:18px;padding:14px;margin:12px 0;box-shadow:0 10px 30px #0005}h2{font-size:17px;margin:4px 0 12px}p{line-height:1.6}.muted{color:#9db4cc;font-size:12px}.stages{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.stage{border:1px solid #355374;border-radius:12px;background:#0b1a2e;color:#d4e7ff;min-height:61px;font-size:19px;font-weight:900;cursor:pointer}.stage small{display:block;font-size:10px;color:#88a4c2}.stage.sel{border:2px solid #40e6ff;background:#153d59;box-shadow:0 0 14px #19ccff55}.stage.win{color:#ffdb7a}.stage:disabled{opacity:.5}.arena{position:relative;aspect-ratio:1.22;max-height:520px;overflow:hidden;border:2px solid #24688a;border-radius:17px;background:#050c18;box-shadow:inset 0 0 35px #00aaff3b,0 0 18px #0087ff29}canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}.arena-label{position:absolute;top:10px;left:12px;font-size:11px;letter-spacing:2px;font-weight:900;color:#92eaff;text-shadow:0 0 10px #17b8ff;pointer-events:none}.hud{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.hud .right{text-align:right}.hpbar{height:12px;border-radius:10px;overflow:hidden;background:#06101e;border:1px solid #35506a;margin:5px 0}.hpfill{height:100%;width:100%;background:linear-gradient(90deg,#03a6d7,#64ffb9);transition:width .15s}.right .hpfill{background:linear-gradient(90deg,#f84a4a,#ffb05d)}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}button{font-family:inherit}button.primary,button.secondary,button.buy{border:1px solid #329dc5;background:linear-gradient(130deg,#0876a5,#163e70);color:white;padding:13px 9px;border-radius:11px;font-weight:900;font-size:14px;cursor:pointer}button.primary{background:linear-gradient(130deg,#00a9d4,#1358a4);font-size:16px}button.secondary{background:linear-gradient(130deg,#692049,#b13b27);border-color:#d65b58}button:disabled{opacity:.4;cursor:not-allowed}.status{text-align:center;min-height:44px;color:#d4e6fb;font-size:13px;font-weight:700}.statrow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border-top:1px solid #243c55;padding:12px 0}.statrow:first-of-type{border-top:0}.statrow strong{font-size:15px}.statrow .muted{margin-top:3px}.buy{min-width:114px;font-size:12px!important;padding:10px 8px!important}.skillgrid{display:grid;grid-template-columns:1fr;gap:9px}.skillitem{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;background:#09182c;border:1px solid #29425e;border-radius:12px;padding:12px}.skillitem strong{color:#ffe19d}.skillitem p{margin:4px 0 0;font-size:12px;color:#b1c5da}.skillitem .buy{border-color:#bd8a44;background:linear-gradient(120deg,#644018,#9b6324)}.footer{text-align:center;color:#6f8da9;font-size:11px;padding:8px}#reset{font-size:11px;background:transparent;color:#7691ac;border:0;text-decoration:underline;cursor:pointer}.aimhint{color:#92eaff;text-align:center;font-size:12px;margin-top:8px;font-weight:800}.pulse{animation:pulse .55s ease}@keyframes pulse{50%{filter:brightness(2)}}@media(min-width:640px){.skillgrid{grid-template-columns:1fr 1fr}.arena{aspect-ratio:1.5}}
+</style></head><body><header><h1>⚡ SPIN BREAKERS</h1><small>3D SPIN BATTLE</small></header><main class="wrap"><div class="topbar"><div class="chip" id="levelText">🏆 クリア 0 / 10</div><div class="chip coin" id="coinsText">🪙 0 COINS</div></div><section class="panel"><h2>🎯 ステージを選択</h2><div class="stages" id="stages"></div><p class="muted" id="stageInfo"></p></section><section class="panel"><div class="arena"><canvas id="canvas"></canvas><div class="arena-label">◈ HOLOGRAPHIC ARENA</div></div><div class="aimhint" id="aimhint">🎯 発射台からスワイプしてコマを発射！</div><div class="hud"><div><b>🔵 PLAYER</b><div class="hpbar"><div class="hpfill" id="playerBar"></div></div><small id="playerHp">HP --</small></div><div class="right"><b id="enemyName">🔴 RIVAL</b><div class="hpbar"><div class="hpfill" id="enemyBar"></div></div><small id="enemyHp">HP --</small></div></div><div class="status" id="status">ステージを選び「発射角度を決める」を押そう！</div><div class="actions"><button class="primary" id="start">🎯 発射角度を決める</button><button class="secondary" id="special" disabled>🔥 必殺技</button></div><p class="muted">発射台から青いコマをスワイプして角度を決定。指を離すと両者が発射！必殺技はバトル中に1回だけ発動可能。勝利でコイン獲得、敗北でも約半分獲得できます。</p></section><section class="panel"><h2>⬆️ ステータス強化</h2><p class="muted">パーツ交換は廃止。コインを使って能力を直接レベルアップ！</p><div id="upgrades"></div></section><section class="panel"><h2>🔥 必殺技ショップ</h2><div class="skillgrid" id="skills"></div><p class="muted">必殺技は購入した最高倍率が使えます。1バトルにつき1回、次の衝突攻撃が強化されます。</p></section><div class="footer"><button id="reset">セーブデータを最初からやり直す</button><p>進行状況はこのブラウザに自動保存されます</p></div></main><script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id), key='spin_breakers_v09_save', STATS={hp:{name:'体力',base:100,step:2,icon:'❤️'},atk:{name:'攻撃',base:20,step:1,icon:'⚔️'},def:{name:'防御',base:12,step:1,icon:'🛡️'},dex:{name:'器用さ',base:12,step:1,icon:'🎯'}},SKILLS=[{cost:1000,mult:1.5},{cost:2500,mult:2},{cost:5000,mult:2.5}];
 let save={coins:0,cleared:[],stage:1,levels:{hp:1,atk:1,def:1,dex:1},skill:0};try{const x=JSON.parse(localStorage.getItem(key));if(x&&typeof x==='object'){save={...save,...x,levels:{...save.levels,...x.levels},cleared:Array.isArray(x.cleared)?x.cleared:[]}}}catch{};
@@ -8,24 +8,145 @@ const persist=()=>localStorage.setItem(key,JSON.stringify(save));const upgradeCo
 // Higher stages require significant investment; repeat earlier stages to farm coins.
 const enemyStats=n=>({hp:Math.round(95+19*(n-1)+1.15*(n-1)**2),atk:Math.round(18+2.6*(n-1)+.2*(n-1)**2),def:Math.round(10+2.2*(n-1)+.17*(n-1)**2),dex:Math.round(9+1.8*(n-1)+.13*(n-1)**2)});
 const reward=n=>Math.round((70+30*n)/10)*10;
-let running=false,battle=null,fx=[],last=performance.now(),canvas=$('canvas'),ctx=canvas.getContext('2d'),cw=600,ch=440,screenScale=1;
+let running=false,aiming=false,aimAngle=0,dragging=false,battle=null,fx=[],last=performance.now(),canvas=$('canvas'),ctx=canvas.getContext('2d'),cw=600,ch=440,screenScale=1;
 function resize(){let b=canvas.getBoundingClientRect();let d=Math.min(2,devicePixelRatio||1);cw=b.width;ch=b.height;canvas.width=Math.round(cw*d);canvas.height=Math.round(ch*d);ctx.setTransform(d,0,0,d,0,0)}window.addEventListener('resize',resize);resize();
 function update(){ $('coinsText').textContent='🪙 '+save.coins.toLocaleString()+' COINS';$('levelText').textContent='🏆 クリア '+save.cleared.length+' / 10';$('stages').innerHTML=Array.from({length:10},(_,i)=>{let n=i+1;return `<button class="stage ${save.stage===n?'sel':''} ${save.cleared.includes(n)?'win':''}" data-stage="${n}" ${running?'disabled':''}>${n}<small>${save.cleared.includes(n)?'★ CLEAR':'STAGE'}</small></button>`}).join('');document.querySelectorAll('[data-stage]').forEach(el=>el.onclick=()=>{save.stage=+el.dataset.stage;persist();update()});const e=enemyStats(save.stage);$('stageInfo').textContent=`STAGE ${save.stage}｜相手 HP ${e.hp} / 攻撃 ${e.atk} / 防御 ${e.def} / 器用 ${e.dex}｜勝利 +${reward(save.stage)} / 敗北 +${Math.ceil(reward(save.stage)/2)} コイン`;
 $('upgrades').innerHTML=Object.entries(STATS).map(([k,s])=>{let l=save.levels[k],c=upgradeCost(l),val=s.base+(l-1)*s.step;return `<div class="statrow"><div><strong>${s.icon} ${s.name} Lv.${l} <span style="color:#8be7ff">${val}</span></strong><div class="muted">次の強化：+${s.step} → ${val+s.step}</div></div><button class="buy" data-up="${k}" ${running||save.coins<c?'disabled':''}>🪙 ${c} で強化</button></div>`}).join('');document.querySelectorAll('[data-up]').forEach(el=>el.onclick=()=>{let k=el.dataset.up,c=upgradeCost(save.levels[k]);if(running||save.coins<c)return;save.coins-=c;save.levels[k]++;persist();update()});
-$('skills').innerHTML=SKILLS.map((s,i)=>`<div class="skillitem"><div><strong>🔥 攻撃 ${s.mult.toFixed(1)}倍</strong><p>${save.skill>=i+1?'購入済み':`購入価格 🪙 ${s.cost.toLocaleString()}`}</p></div><button class="buy" data-skill="${i+1}" ${running||save.skill>=i+1||save.coins<s.cost||i+1!==save.skill+1?'disabled':''}>${save.skill>=i+1?'✓ 所持':'購入'}</button></div>`).join('');document.querySelectorAll('[data-skill]').forEach(el=>el.onclick=()=>{let tier=+el.dataset.skill,s=SKILLS[tier-1];if(running||tier!==save.skill+1||save.coins<s.cost)return;save.coins-=s.cost;save.skill=tier;persist();update()});$('start').disabled=running;$('special').disabled=!running||!save.skill||!battle||battle.used||battle.queued;$('special').textContent=save.skill?`🔥 必殺技 ×${SKILLS[save.skill-1].mult.toFixed(1)}`:'🔒 必殺技 未購入';refreshHp();}
+$('skills').innerHTML=SKILLS.map((s,i)=>`<div class="skillitem"><div><strong>🔥 攻撃 ${s.mult.toFixed(1)}倍</strong><p>${save.skill>=i+1?'購入済み':`購入価格 🪙 ${s.cost.toLocaleString()}`}</p></div><button class="buy" data-skill="${i+1}" ${running||save.skill>=i+1||save.coins<s.cost||i+1!==save.skill+1?'disabled':''}>${save.skill>=i+1?'✓ 所持':'購入'}</button></div>`).join('');document.querySelectorAll('[data-skill]').forEach(el=>el.onclick=()=>{let tier=+el.dataset.skill,s=SKILLS[tier-1];if(running||tier!==save.skill+1||save.coins<s.cost)return;save.coins-=s.cost;save.skill=tier;persist();update()});$('start').disabled=running;$('start').textContent=running?'⚡ バトル中':aiming?'🚀 この角度で発射':'🎯 発射角度を決める';$('special').disabled=!running||!save.skill||!battle||battle.used||battle.queued;$('special').textContent=save.skill?`🔥 必殺技 ×${SKILLS[save.skill-1].mult.toFixed(1)}`:'🔒 必殺技 未購入';refreshHp();}
 function refreshHp(){let p=battle?.p,e=battle?.e,ps=p?.max||playerStats().hp,es=e?.max||enemyStats(save.stage).hp;$('playerBar').style.width=`${100*(p?p.hp/ps:1)}%`;$('enemyBar').style.width=`${100*(e?e.hp/es:1)}%`;$('playerHp').textContent=`HP ${Math.max(0,Math.ceil(p?.hp??ps))} / ${ps}`;$('enemyHp').textContent=`HP ${Math.max(0,Math.ceil(e?.hp??es))} / ${es}`;$('enemyName').textContent='🔴 RIVAL '+save.stage;}
-function start(){if(running)return;const ps=playerStats(),es=enemyStats(save.stage);battle={p:{...ps,max:ps.hp,x:-.47,y:0,vx:.18,vy:.13,rot:0,hp:ps.hp},e:{...es,max:es.hp,x:.47,y:0,vx:-.18,vy:-.12,rot:0,hp:es.hp},elapsed:0,collide:0,used:false,queued:false,flash:0};running=true;$('status').textContent='⚡ バトル開始！コマが激突！';update()}
-$('start').onclick=start;$('special').onclick=()=>{if(!running||!save.skill||battle.used||battle.queued)return;battle.queued=true;$('status').textContent='🔥 必殺技チャージ！次の衝突で発動！';update()};$('reset').onclick=()=>{if(running)return;if(confirm('コイン・強化・クリア記録をすべて初期化しますか？')){localStorage.removeItem(key);location.reload()}};
-function end(win){if(!running)return;running=false;let n=save.stage,coins=win?reward(n):Math.ceil(reward(n)/2);save.coins+=coins;if(win&&!save.cleared.includes(n))save.cleared.push(n);persist();$('status').textContent=(win?'🏆 勝利！':'💥 敗北…')+` 🪙 ${coins} コイン獲得！`;update();}
+function start(){
+ if(running)return;
+ aiming=true;aimAngle=0;dragging=false;fx=[];
+ $('status').textContent='🎯 左の発射台から中央へスワイプ！角度を決めて指を離そう';
+ $('aimhint').textContent='青い発射台から中央へ指を動かして離すと発射！';
+ $('start').textContent='🚀 この角度で発射';
+ update();
+}
+function launch(){
+ if(!aiming||running)return;
+ aiming=false;running=true;
+ const ps=playerStats(),es=enemyStats(save.stage);
+ const speed=.62, enemyAngle=(Math.random()-.5)*.52;
+ battle={p:{...ps,max:ps.hp,x:-.81,y:0,vx:Math.cos(aimAngle)*speed,vy:Math.sin(aimAngle)*speed,rot:0,hp:ps.hp,spin:1},
+ e:{...es,max:es.hp,x:.81,y:0,vx:-Math.cos(enemyAngle)*(.54+save.stage*.015),vy:Math.sin(enemyAngle)*(.54+save.stage*.015),rot:0,hp:es.hp,spin:1},
+ elapsed:0,collide:0,used:false,queued:false,flash:0,impact:0,shake:0};
+ $('start').textContent='⚡ バトル中';
+ $('aimhint').textContent='⚡ 激突！ 必殺技を発動して大ダメージを狙おう';
+ $('status').textContent='🚀 発射！ 2つのコマがボウルの中央へ！';update();
+}
+$('start').onclick=()=>{if(aiming)launch();else start()};
+function aimFromEvent(ev){
+ const r=canvas.getBoundingClientRect(),x=ev.clientX-r.left,y=ev.clientY-r.top;
+ const base=project(-.81,0,.09);
+ const dx=x-base[0],dy=(y-base[1])/(ch*.19)*cw*.39;
+ aimAngle=Math.max(-.85,Math.min(.85,Math.atan2(dy,Math.max(12,dx))));
+ $('aimhint').textContent=`🎯 発射角度 ${Math.round(aimAngle*180/Math.PI)}°　指を離して発射！`;
+}
+canvas.addEventListener('pointerdown',ev=>{if(!aiming)return;dragging=true;canvas.setPointerCapture(ev.pointerId);aimFromEvent(ev)});
+canvas.addEventListener('pointermove',ev=>{if(dragging&&aiming)aimFromEvent(ev)});
+canvas.addEventListener('pointerup',ev=>{if(dragging&&aiming){aimFromEvent(ev);dragging=false;launch()}});
+canvas.addEventListener('pointercancel',()=>{dragging=false});
+$('special').onclick=()=>{if(!running||!save.skill||battle.used||battle.queued)return;battle.queued=true;$('status').textContent='🔥 必殺技チャージ！次の衝突で発動！';update()};
+$('reset').onclick=()=>{if(running)return;if(confirm('コイン・強化・クリア記録をすべて初期化しますか？')){localStorage.removeItem(key);location.reload()}};
+function end(win){if(!running)return;running=false;aiming=false;$('aimhint').textContent='🎯 次のステージを選んで再挑戦！';let n=save.stage,coins=win?reward(n):Math.ceil(reward(n)/2);save.coins+=coins;if(win&&!save.cleared.includes(n))save.cleared.push(n);persist();$('status').textContent=(win?'🏆 勝利！':'💥 敗北…')+` 🪙 ${coins} コイン獲得！`;update();}
 function damage(a,b,mult=1){const dodge=Math.min(.2,Math.max(0,(b.dex-a.dex)*.005));if(Math.random()<dodge)return 0;return Math.max(1,Math.round((a.atk*mult*(.86+Math.random()*.28))*30/(30+b.def)))}
-function tick(dt){if(!running||!battle)return;let b=battle;b.elapsed+=dt;b.flash=Math.max(0,b.flash-dt);for(let a of [b.p,b.e]){a.rot+=dt*18*(.5+a.hp/a.max*.5);a.x+=a.vx*dt;a.y+=a.vy*dt;const rad=Math.hypot(a.x,a.y);if(rad>.82){let nx=a.x/rad,ny=a.y/rad,dot=a.vx*nx+a.vy*ny;a.vx-=1.85*dot*nx;a.vy-=1.85*dot*ny;a.x=nx*.82;a.y=ny*.82}a.vx+=(-a.x)*dt*.06;a.vy+=(-a.y)*dt*.06;let v=Math.hypot(a.vx,a.vy);if(v<.13){a.vx*=1.03;a.vy*=1.03}}let p=b.p,e=b.e,dx=e.x-p.x,dy=e.y-p.y,d=Math.hypot(dx,dy);b.collide-=dt;if(d<.29&&b.collide<=0){let nx=dx/(d||1),ny=dy/(d||1);let pd=damage(p,e,b.queued?SKILLS[save.skill-1].mult:1),ed=damage(e,p);if(b.queued){b.queued=false;b.used=true;$('status').textContent=`🔥 必殺技ヒット！ ${pd} ダメージ！`}else{$('status').textContent=`⚡ 激突！ PLAYER ${pd} / RIVAL ${ed} ダメージ`;}e.hp-=pd;p.hp-=ed;let speed=.27+Math.random()*.1;p.vx=-nx*speed+(Math.random()-.5)*.1;p.vy=-ny*speed+(Math.random()-.5)*.1;e.vx=nx*speed+(Math.random()-.5)*.1;e.vy=ny*speed+(Math.random()-.5)*.1;b.collide=.6;b.flash=.2;for(let i=0;i<24;i++){let ang=Math.random()*Math.PI*2,spd=.2+Math.random()*.9;fx.push({x:(p.x+e.x)/2,y:(p.y+e.y)/2,vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd,life:.25+Math.random()*.45,c:i%2?'#ffad40':'#73ecff'})}refreshHp();update();if(p.hp<=0||e.hp<=0){end(e.hp<=0&&(p.hp>0||e.hp<p.hp));return}}// keep battles from stalling; soft auto-homing when apart
-if(d>.35){let nx=dx/(d||1),ny=dy/(d||1);p.vx+=nx*dt*.12;p.vy+=ny*dt*.12;e.vx-=nx*dt*.12;e.vy-=ny*dt*.12}
-if(b.elapsed>95){end(p.hp/p.max>e.hp/e.max)} }
+function tick(dt){
+ if(!running||!battle)return;
+ let b=battle;b.elapsed+=dt;b.flash=Math.max(0,b.flash-dt);b.shake=Math.max(0,b.shake-dt*3);
+ const p=b.p,e=b.e;
+ for(const a of [p,e]){
+   a.rot+=dt*(25+10*a.hp/a.max)*a.spin;
+   // Bowl-shaped floor: gravity pulls both tops toward the center.
+   a.vx+=-a.x*dt*.85;a.vy+=-a.y*dt*.85;
+   a.vx*=Math.pow(.987,dt*60);a.vy*=Math.pow(.987,dt*60);
+   a.x+=a.vx*dt;a.y+=a.vy*dt;
+   let rad=Math.hypot(a.x,a.y);
+   if(rad>.85){
+     let nx=a.x/rad,ny=a.y/rad,dot=a.vx*nx+a.vy*ny;
+     if(dot>0){a.vx-=1.75*dot*nx;a.vy-=1.75*dot*ny}
+     a.x=nx*.85;a.y=ny*.85;
+     for(let i=0;i<3;i++)spark(a.x,a.y,i%2?'#77eaff':'#ffcb78',.25);
+   }
+ }
+ let dx=e.x-p.x,dy=e.y-p.y,d=Math.hypot(dx,dy);
+ b.collide-=dt;
+ if(d<.27&&b.collide<=0){
+   let nx=dx/(d||1),ny=dy/(d||1),midX=(p.x+e.x)/2,midY=(p.y+e.y)/2;
+   let pd=damage(p,e,b.queued?SKILLS[save.skill-1].mult:1),ed=damage(e,p);
+   if(b.queued){b.queued=false;b.used=true;$('status').textContent=`🔥 必殺技炸裂！ ${pd} ダメージ！`}
+   else $('status').textContent=`💥 激突！ PLAYER ${pd} / RIVAL ${ed} ダメージ`;
+   e.hp-=pd;p.hp-=ed;
+   let rel=(p.vx-e.vx)*nx+(p.vy-e.vy)*ny;
+   const impulse=Math.max(.35,Math.abs(rel)*.85);
+   p.vx-=nx*impulse;p.vy-=ny*impulse;
+   e.vx+=nx*impulse;e.vy+=ny*impulse;
+   const overlap=(.27-d)/2+.008;
+   p.x-=nx*overlap;p.y-=ny*overlap;e.x+=nx*overlap;e.y+=ny*overlap;
+   b.collide=.30;b.flash=.12;b.shake=.8;b.impact=.32;
+   for(let i=0;i<38;i++)spark(midX,midY,i%3===0?'#fff4b5':i%2?'#ff713e':'#42e7ff',1.3);
+   refreshHp();update();
+   if(p.hp<=0||e.hp<=0){end(e.hp<=0&&(p.hp>0||e.hp<p.hp));return}
+ }
+ // Gentle magnetism guarantees the tops repeatedly meet instead of orbiting separately.
+ if(d>.28&&b.elapsed>1.1){
+   let nx=dx/(d||1),ny=dy/(d||1);
+   const pull=.36;
+   p.vx+=nx*dt*pull;p.vy+=ny*dt*pull;
+   e.vx-=nx*dt*pull;e.vy-=ny*dt*pull;
+ }
+ b.impact=Math.max(0,b.impact-dt);
+ if(b.elapsed>90)end(p.hp/p.max>e.hp/e.max);
+}
+function spark(x,y,c,power=1){
+ let ang=Math.random()*Math.PI*2,speed=(.25+Math.random()*.95)*power;
+ fx.push({x,y,vx:Math.cos(ang)*speed,vy:Math.sin(ang)*speed,life:.2+Math.random()*.55,c});
+ if(fx.length>220)fx.splice(0,fx.length-220);
+}
 function project(x,y,z=0){let sx=cw*.5+x*cw*.39,sy=ch*.55+y*ch*.19-z*ch*.25;return [sx,sy]}
 function ellipse(x,y,rx,ry,fill,stroke,lw=1){ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw;ctx.stroke()}}
-function arena(t){let bg=ctx.createLinearGradient(0,0,0,ch);bg.addColorStop(0,'#101f38');bg.addColorStop(.6,'#050e20');bg.addColorStop(1,'#02060e');ctx.fillStyle=bg;ctx.fillRect(0,0,cw,ch);for(let i=0;i<17;i++){let x=cw*(i/16);ctx.strokeStyle=`rgba(29,128,199,${.05+.05*Math.sin(t+i)})`;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(cw/2+(x-cw/2)*.5,ch*.4);ctx.stroke()}let cx=cw*.5,cy=ch*.58,rx=cw*.43,ry=ch*.245;ellipse(cx,cy+ch*.09,rx*1.08,ry*1.08,'#030711','#24628d',3);let outer=ctx.createRadialGradient(cx,cy,rx*.06,cx,cy,rx);outer.addColorStop(0,'#152b43');outer.addColorStop(.66,'#0c1a30');outer.addColorStop(.92,'#173e57');outer.addColorStop(1,'#071021');ellipse(cx,cy,rx,ry,outer,'#56c8fa',3);for(let k=0;k<4;k++){ellipse(cx,cy,rx*(.25+k*.22),ry*(.25+k*.22),null,`rgba(38,184,255,${.19+k*.08})`,1.5)}for(let i=0;i<36;i++){let a=i*Math.PI/18+t*.07,x=cx+Math.cos(a)*rx*.96,y=cy+Math.sin(a)*ry*.96;ellipse(x,y,1.6,1.3,i%3?'#367baf':'#9af8ff')}ellipse(cx,cy,rx*.12,ry*.12,'#173b5e','#3f7ca0',1);ctx.fillStyle='#7b9bb2';ctx.font=`bold ${Math.max(9,cw*.016)}px system-ui`;ctx.textAlign='center';ctx.fillText('SPIN BREAKERS',cx,cy+3)}
+function arena(t){
+ let bg=ctx.createLinearGradient(0,0,0,ch);bg.addColorStop(0,'#132b50');bg.addColorStop(.58,'#060f24');bg.addColorStop(1,'#01050f');
+ ctx.fillStyle=bg;ctx.fillRect(0,0,cw,ch);
+ // Stadium spotlights and grandstand.
+ for(let i=0;i<12;i++){
+  let x=cw*(i+.5)/12;ctx.strokeStyle=`rgba(44,181,255,${.055+.03*Math.sin(t+i)})`;
+  ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(cw/2+(x-cw/2)*.45,ch*.46);ctx.stroke();
+ }
+ for(let k=0;k<3;k++){let y=ch*(.10+k*.085);ctx.strokeStyle=k===1?'#195ca0':'#153454';ctx.lineWidth=4;ctx.beginPath();ctx.ellipse(cw*.5,y,cw*(.43+k*.035),ch*.075,0,Math.PI,Math.PI*2);ctx.stroke()}
+ const cx=cw*.5,cy=ch*.55,rx=cw*.46,ry=ch*.28;
+ // Thick metallic rim: multiple offset ellipses create a real bowl lip.
+ ellipse(cx,cy+ch*.115,rx*1.04,ry*1.1,'#02050c','#17395a',5);
+ ellipse(cx,cy+ch*.075,rx*1.04,ry*1.1,'#0b1a31','#357fbd',5);
+ ellipse(cx,cy+ch*.023,rx*1.04,ry*1.1,'#1b4266','#8ddfff',4);
+ const g=ctx.createRadialGradient(cx,cy+ry*.2,rx*.04,cx,cy,rx*1.1);
+ g.addColorStop(0,'#020916');g.addColorStop(.35,'#091d32');g.addColorStop(.68,'#103451');g.addColorStop(.88,'#1d5779');g.addColorStop(1,'#07162b');
+ ellipse(cx,cy,rx,ry,g,'#75d9ff',3);
+ // Concentric curved floor contours and perspective ribs.
+ for(let i=1;i<=6;i++){let f=i/7;ellipse(cx,cy+ry*(1-f)*.08,rx*f,ry*f,null,`rgba(65,195,255,${.11+f*.2})`,1.3)}
+ for(let i=0;i<32;i++){let a=i*Math.PI/16;ctx.strokeStyle=`rgba(79,201,255,${.055+.05*Math.sin(t+i)})`;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(cx+Math.cos(a)*rx*.18,cy+Math.sin(a)*ry*.18);ctx.lineTo(cx+Math.cos(a)*rx*.95,cy+Math.sin(a)*ry*.95);ctx.stroke()}
+ for(let i=0;i<56;i++){let a=i*Math.PI/28,x=cx+Math.cos(a)*rx*1.01,y=cy+Math.sin(a)*ry*1.01;ellipse(x,y,Math.max(1.3,cw*.0025),1.6,i%4?'#1a70a4':'#e0faff')}
+ ellipse(cx,cy+3,rx*.14,ry*.15,'#071528','#54cfff',2);
+ ctx.save();ctx.shadowBlur=14;ctx.shadowColor='#21dfff';ctx.fillStyle='#9ceeff';ctx.font=`900 ${Math.max(10,cw*.021)}px system-ui`;ctx.textAlign='center';ctx.fillText('SPIN BREAKERS',cx,cy+4);ctx.restore();
+ // Launch rails anchored to opposite sides of the bowl.
+ for(const side of [-1,1]){
+   let bx=cx+side*rx*.88,by=cy;
+   ctx.save();ctx.translate(bx,by);ctx.scale(side,1);
+   ctx.fillStyle=side<0?'#0a7098':'#842e38';ctx.strokeStyle=side<0?'#78eaff':'#ffb0a0';ctx.lineWidth=3;
+   ctx.beginPath();ctx.roundRect(-cw*.05,-ch*.075,cw*.11,ch*.15,8);ctx.fill();ctx.stroke();
+   for(let j=0;j<3;j++){ctx.strokeStyle='#d7f3ff77';ctx.beginPath();ctx.moveTo(-cw*.025,-ch*.047+j*ch*.044);ctx.lineTo(cw*.035,-ch*.047+j*ch*.044);ctx.stroke()}
+   ctx.restore();
+ }
+}
 function top3d(a,blue,t){let [x,y]=project(a.x,a.y,.06),scale=Math.max(.55,cw/570),r=25*scale;ctx.save();ctx.translate(x,y);let shadow=ctx.createRadialGradient(0,r*.6,2,0,r*.6,r*1.6);shadow.addColorStop(0,'#000a');shadow.addColorStop(1,'#0000');ellipse(0,r*.65,r*1.7,r*.56,shadow);ctx.translate(0,-r*.18);let hue=blue?'#2ae7ff':'#ff5947',deep=blue?'#075a8c':'#8a171b',shine=blue?'#b8faff':'#ffd0aa';let trail=ctx.createRadialGradient(0,0,r*.3,0,0,r*1.7);trail.addColorStop(0,'#0000');trail.addColorStop(.55,blue?'#12d4ff15':'#ff6b2515');trail.addColorStop(.83,blue?'#19bfff66':'#ff5a2366');trail.addColorStop(1,'#0000');ellipse(0,3,r*1.65,r*.75,trail);ellipse(0,10,r*.8,r*.27,deep,'#9ba9b7',2);let metal=ctx.createLinearGradient(-r,-r,r,r);metal.addColorStop(0,'#f3fbff');metal.addColorStop(.24,deep);metal.addColorStop(.5,'#879cb1');metal.addColorStop(.7,shine);metal.addColorStop(1,'#1b273a');ellipse(0,1,r,r*.56,metal,'#f6f9ff',2);ctx.save();ctx.scale(1,.57);ctx.rotate(a.rot);for(let i=0;i<8;i++){ctx.rotate(Math.PI/4);ctx.beginPath();ctx.moveTo(-r*.24,-r*.6);ctx.lineTo(0,-r*1.05);ctx.lineTo(r*.27,-r*.62);ctx.lineTo(r*.14,-r*.23);ctx.closePath();ctx.fillStyle=i%2?deep:hue;ctx.fill();ctx.strokeStyle='#b7d8e4';ctx.lineWidth=1.2;ctx.stroke()}let g=ctx.createRadialGradient(-r*.22,-r*.25,1,0,0,r*.64);g.addColorStop(0,'#ffffff');g.addColorStop(.27,shine);g.addColorStop(.6,deep);g.addColorStop(1,'#091b2e');ellipse(0,0,r*.62,r*.62,g,'#d2e4e9',2);ellipse(0,0,r*.27,r*.27,'#12263b',hue,2);ellipse(0,0,r*.1,r*.1,'#fff');ctx.restore();ctx.restore()}
-function render(t){ctx.clearRect(0,0,cw,ch);arena(t);let p=battle?.p||{x:-.43,y:0,rot:t*8},e=battle?.e||{x:.43,y:0,rot:-t*8};let ordered=[{a:p,blue:true},{a:e,blue:false}].sort((u,v)=>u.a.y-v.a.y);for(let o of ordered)top3d(o.a,o.blue,t);for(let i=fx.length-1;i>=0;i--){let f=fx[i],dt=Math.min(.04,(t-(f.last||t)));f.last=t;f.x+=f.vx*dt;f.y+=f.vy*dt;f.life-=dt;let [x,y]=project(f.x,f.y,.08);ctx.globalAlpha=Math.max(0,Math.min(1,f.life*2));ellipse(x,y,2.5,2.5,f.c);ctx.globalAlpha=1;if(f.life<=0)fx.splice(i,1)}if(battle?.flash>0){ctx.fillStyle=`rgba(255,236,194,${battle.flash*.7})`;ctx.fillRect(0,0,cw,ch)}}
+function render(t){ctx.clearRect(0,0,cw,ch);ctx.save();if(battle?.shake>0)ctx.translate((Math.random()-.5)*battle.shake*8,(Math.random()-.5)*battle.shake*6);arena(t);
+ if(aiming){
+  let origin=project(-.81,0,.06),target=project(-.81+Math.cos(aimAngle)*.75,Math.sin(aimAngle)*.75,.06);
+  ctx.save();ctx.setLineDash([9,7]);ctx.strokeStyle='#83f8ff';ctx.lineWidth=3;ctx.shadowColor='#00dbff';ctx.shadowBlur=15;
+  ctx.beginPath();ctx.moveTo(...origin);ctx.lineTo(...target);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='#c5fcff';ctx.beginPath();ctx.arc(...target,6,0,Math.PI*2);ctx.fill();ctx.restore();
+ }
+ let p=battle?.p||{x:-.43,y:0,rot:t*8},e=battle?.e||{x:.43,y:0,rot:-t*8};let ordered=[{a:p,blue:true},{a:e,blue:false}].sort((u,v)=>u.a.y-v.a.y);for(let o of ordered)top3d(o.a,o.blue,t);for(let i=fx.length-1;i>=0;i--){let f=fx[i],dt=Math.min(.04,(t-(f.last||t)));f.last=t;f.x+=f.vx*dt;f.y+=f.vy*dt;f.life-=dt;let [x,y]=project(f.x,f.y,.08);ctx.globalAlpha=Math.max(0,Math.min(1,f.life*2));ellipse(x,y,2.5,2.5,f.c);ctx.globalAlpha=1;if(f.life<=0)fx.splice(i,1)}if(battle?.impact>0){let mid=project((battle.p.x+battle.e.x)/2,(battle.p.y+battle.e.y)/2,.12);ctx.save();ctx.globalAlpha=battle.impact*2;ctx.strokeStyle='#ffdb78';ctx.lineWidth=4;ctx.shadowColor='#ffad33';ctx.shadowBlur=25;ctx.beginPath();ctx.ellipse(mid[0],mid[1],(1-battle.impact)*cw*.11,(1-battle.impact)*ch*.065,0,0,Math.PI*2);ctx.stroke();ctx.restore()}
+ if(battle?.flash>0){ctx.fillStyle=`rgba(255,236,194,${battle.flash*.7})`;ctx.fillRect(0,0,cw,ch)}ctx.restore()}
 function frame(now){let dt=Math.min(.045,(now-last)/1000);last=now;tick(dt);render(now/1000);requestAnimationFrame(frame)}update();requestAnimationFrame(frame);
 })();
 </script></body></html>
